@@ -1,0 +1,47 @@
+table DimAccount
+
+	column AccountKey
+		dataType: int64
+		sourceColumn: AccountKey
+
+	column ParentAccountKey
+		dataType: int64
+		sourceColumn: ParentAccountKey
+
+	column AccountCodeAlternateKey
+		dataType: int64
+		sourceColumn: AccountCodeAlternateKey
+
+	column ParentAccountCodeAlternateKey
+		dataType: int64
+		sourceColumn: ParentAccountCodeAlternateKey
+
+	column AccountDescription
+		dataType: string
+		sourceColumn: AccountDescription
+
+	column AccountType
+		dataType: string
+		sourceColumn: AccountType
+
+	column Operator
+		dataType: string
+		sourceColumn: Operator
+
+	column CustomMembers
+		dataType: string
+		sourceColumn: CustomMembers
+
+	column ValueType
+		dataType: string
+		sourceColumn: ValueType
+
+	column CustomMemberOptions
+		dataType: string
+		sourceColumn: CustomMemberOptions
+
+	partition DimAccount-b9f9ea4e-9b89-4dbf-b63a-7f83b2adc65e = query
+		source
+			query = SELECT * FROM [dbo].[DimAccount]
+			dataSource: 'Source.MSSQL'
+

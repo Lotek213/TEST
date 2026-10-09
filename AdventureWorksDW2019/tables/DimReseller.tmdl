@@ -1,0 +1,87 @@
+table DimReseller
+
+	column ResellerKey
+		dataType: int64
+		sourceColumn: ResellerKey
+
+	column GeographyKey
+		dataType: int64
+		sourceColumn: GeographyKey
+
+	column ResellerAlternateKey
+		dataType: string
+		sourceColumn: ResellerAlternateKey
+
+	column Phone
+		dataType: string
+		sourceColumn: Phone
+
+	column BusinessType
+		dataType: string
+		sourceColumn: BusinessType
+
+	column ResellerName
+		dataType: string
+		sourceColumn: ResellerName
+
+	column NumberEmployees
+		dataType: int64
+		sourceColumn: NumberEmployees
+
+	column OrderFrequency
+		dataType: string
+		sourceColumn: OrderFrequency
+
+	column OrderMonth
+		dataType: int64
+		sourceColumn: OrderMonth
+
+	column FirstOrderYear
+		dataType: int64
+		sourceColumn: FirstOrderYear
+
+	column LastOrderYear
+		dataType: int64
+		sourceColumn: LastOrderYear
+
+	column ProductLine
+		dataType: string
+		sourceColumn: ProductLine
+
+	column AddressLine1
+		dataType: string
+		sourceColumn: AddressLine1
+
+	column AddressLine2
+		dataType: string
+		sourceColumn: AddressLine2
+
+	column AnnualSales
+		dataType: decimal
+		sourceColumn: AnnualSales
+
+	column BankName
+		dataType: string
+		sourceColumn: BankName
+
+	column MinPaymentType
+		dataType: int64
+		sourceColumn: MinPaymentType
+
+	column MinPaymentAmount
+		dataType: decimal
+		sourceColumn: MinPaymentAmount
+
+	column AnnualRevenue
+		dataType: decimal
+		sourceColumn: AnnualRevenue
+
+	column YearOpened
+		dataType: int64
+		sourceColumn: YearOpened
+
+	partition DimReseller-31d20cca-d60e-4076-850a-59c8e61ebf28 = query
+		source
+			query = SELECT * FROM [dbo].[DimReseller]
+			dataSource: 'Source.MSSQL'
+

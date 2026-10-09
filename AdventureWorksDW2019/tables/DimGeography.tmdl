@@ -1,0 +1,51 @@
+table DimGeography
+
+	column GeographyKey
+		dataType: int64
+		sourceColumn: GeographyKey
+
+	column City
+		dataType: string
+		sourceColumn: City
+
+	column StateProvinceCode
+		dataType: string
+		sourceColumn: StateProvinceCode
+
+	column StateProvinceName
+		dataType: string
+		sourceColumn: StateProvinceName
+
+	column CountryRegionCode
+		dataType: string
+		sourceColumn: CountryRegionCode
+
+	column EnglishCountryRegionName
+		dataType: string
+		sourceColumn: EnglishCountryRegionName
+
+	column SpanishCountryRegionName
+		dataType: string
+		sourceColumn: SpanishCountryRegionName
+
+	column FrenchCountryRegionName
+		dataType: string
+		sourceColumn: FrenchCountryRegionName
+
+	column PostalCode
+		dataType: string
+		sourceColumn: PostalCode
+
+	column SalesTerritoryKey
+		dataType: int64
+		sourceColumn: SalesTerritoryKey
+
+	column IpAddressLocator
+		dataType: string
+		sourceColumn: IpAddressLocator
+
+	partition DimGeography-d3581b44-ed42-4fb0-bafa-2500cad15f70 = query
+		source
+			query = SELECT * FROM [dbo].[DimGeography]
+			dataSource: 'Source.MSSQL'
+

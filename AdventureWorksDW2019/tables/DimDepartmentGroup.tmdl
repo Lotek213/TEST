@@ -1,0 +1,19 @@
+table DimDepartmentGroup
+
+	column DepartmentGroupKey
+		dataType: int64
+		sourceColumn: DepartmentGroupKey
+
+	column ParentDepartmentGroupKey
+		dataType: int64
+		sourceColumn: ParentDepartmentGroupKey
+
+	column DepartmentGroupName
+		dataType: string
+		sourceColumn: DepartmentGroupName
+
+	partition DimDepartmentGroup-54cb6946-17e5-44d5-9e1d-c66815e451d6 = query
+		source
+			query = SELECT * FROM [dbo].[DimDepartmentGroup]
+			dataSource: 'Source.MSSQL'
+

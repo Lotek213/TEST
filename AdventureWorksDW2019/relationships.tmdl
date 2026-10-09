@@ -1,0 +1,8 @@
+relationship 'Microsoft.AnalysisServices.Tabular.Table_Microsoft.AnalysisServices.Tabular.Table_Microsoft.AnalysisServices.Tabular.DataColumn_Microsoft.AnalysisServices.Tabular.DataColumn_7838bc47-0717-4c15-8e93-ea143a0f2d4f'
+	fromColumn: FactSales.DimCustomerId
+	toColumn: DimCustomer.DimCustomerId
+
+relationship 'Microsoft.AnalysisServices.Tabular.Table_Microsoft.AnalysisServices.Tabular.Table_Microsoft.AnalysisServices.Tabular.DataColumn_Microsoft.AnalysisServices.Tabular.DataColumn_0f2263eb-9762-46a7-8dbc-6738c28ad06b'
+	fromColumn: FactSales.DimProductId
+	toColumn: DimProduct.DimProductId
+

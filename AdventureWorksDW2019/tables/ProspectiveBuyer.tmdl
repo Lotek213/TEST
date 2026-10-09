@@ -1,0 +1,103 @@
+table ProspectiveBuyer
+
+	column ProspectiveBuyerKey
+		dataType: int64
+		sourceColumn: ProspectiveBuyerKey
+
+	column ProspectAlternateKey
+		dataType: string
+		sourceColumn: ProspectAlternateKey
+
+	column FirstName
+		dataType: string
+		sourceColumn: FirstName
+
+	column MiddleName
+		dataType: string
+		sourceColumn: MiddleName
+
+	column LastName
+		dataType: string
+		sourceColumn: LastName
+
+	column BirthDate
+		dataType: dateTime
+		sourceColumn: BirthDate
+
+	column MaritalStatus
+		dataType: string
+		sourceColumn: MaritalStatus
+
+	column Gender
+		dataType: string
+		sourceColumn: Gender
+
+	column EmailAddress
+		dataType: string
+		sourceColumn: EmailAddress
+
+	column YearlyIncome
+		dataType: decimal
+		sourceColumn: YearlyIncome
+
+	column TotalChildren
+		dataType: int64
+		sourceColumn: TotalChildren
+
+	column NumberChildrenAtHome
+		dataType: int64
+		sourceColumn: NumberChildrenAtHome
+
+	column Education
+		dataType: string
+		sourceColumn: Education
+
+	column Occupation
+		dataType: string
+		sourceColumn: Occupation
+
+	column HouseOwnerFlag
+		dataType: string
+		sourceColumn: HouseOwnerFlag
+
+	column NumberCarsOwned
+		dataType: int64
+		sourceColumn: NumberCarsOwned
+
+	column AddressLine1
+		dataType: string
+		sourceColumn: AddressLine1
+
+	column AddressLine2
+		dataType: string
+		sourceColumn: AddressLine2
+
+	column City
+		dataType: string
+		sourceColumn: City
+
+	column StateProvinceCode
+		dataType: string
+		sourceColumn: StateProvinceCode
+
+	column PostalCode
+		dataType: string
+		sourceColumn: PostalCode
+
+	column Phone
+		dataType: string
+		sourceColumn: Phone
+
+	column Salutation
+		dataType: string
+		sourceColumn: Salutation
+
+	column Unknown
+		dataType: int64
+		sourceColumn: Unknown
+
+	partition ProspectiveBuyer-a17ad1c4-c1ba-4d32-b6a0-7354239d0c00 = query
+		source
+			query = SELECT * FROM [dbo].[ProspectiveBuyer]
+			dataSource: 'Source.MSSQL'
+

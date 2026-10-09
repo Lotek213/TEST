@@ -1,0 +1,31 @@
+table NewFactCurrencyRate
+
+	column AverageRate
+		dataType: double
+		sourceColumn: AverageRate
+
+	column CurrencyID
+		dataType: string
+		sourceColumn: CurrencyID
+
+	column CurrencyDate
+		dataType: dateTime
+		sourceColumn: CurrencyDate
+
+	column EndOfDayRate
+		dataType: double
+		sourceColumn: EndOfDayRate
+
+	column CurrencyKey
+		dataType: int64
+		sourceColumn: CurrencyKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	partition NewFactCurrencyRate-391b118c-2f64-40be-93e7-0d5ee258a2e9 = query
+		source
+			query = SELECT * FROM [dbo].[NewFactCurrencyRate]
+			dataSource: 'Source.MSSQL'
+

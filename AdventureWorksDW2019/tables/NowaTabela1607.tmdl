@@ -1,0 +1,15 @@
+table NowaTabela1607
+
+	column ggggg
+		dataType: string
+		sourceColumn: ggggg
+
+	column fgmkdjbmglkf
+		dataType: string
+		sourceColumn: fgmkdjbmglkf
+
+	partition NowaTabela1607-ac44820e-cce9-481a-806c-c8eb0d63b435 = query
+		source
+			query = SELECT * FROM [dbo].[NowaTabela1607]
+			dataSource: 'Source.MSSQL'
+

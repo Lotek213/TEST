@@ -1,0 +1,27 @@
+table sysdiagrams
+
+	column name
+		dataType: string
+		sourceColumn: name
+
+	column principal_id
+		dataType: int64
+		sourceColumn: principal_id
+
+	column diagram_id
+		dataType: int64
+		sourceColumn: diagram_id
+
+	column version
+		dataType: int64
+		sourceColumn: version
+
+	column definition
+		dataType: binary
+		sourceColumn: definition
+
+	partition sysdiagrams-2e72e152-b015-476f-8f62-fbf243075cbe = query
+		source
+			query = SELECT * FROM [dbo].[sysdiagrams]
+			dataSource: 'Source.MSSQL'
+

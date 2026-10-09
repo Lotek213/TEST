@@ -1,0 +1,15 @@
+table NowaTabela
+
+	column ID
+		dataType: string
+		sourceColumn: ID
+
+	column Cust
+		dataType: string
+		sourceColumn: Cust
+
+	partition NowaTabela-55de6a7c-642c-4f9c-95e1-ac4c02bb0eb1 = query
+		source
+			query = SELECT * FROM [dbo].[NowaTabela]
+			dataSource: 'Source.MSSQL'
+

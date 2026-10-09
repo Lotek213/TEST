@@ -1,0 +1,5 @@
+database AdventureWorksDW2019
+	compatibilityLevel: 1500
+	compatibilityMode: analysisServices
+	language: 1033
+

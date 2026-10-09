@@ -1,0 +1,35 @@
+table FactProductInventory
+
+	column ProductKey
+		dataType: int64
+		sourceColumn: ProductKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column MovementDate
+		dataType: dateTime
+		sourceColumn: MovementDate
+
+	column UnitCost
+		dataType: decimal
+		sourceColumn: UnitCost
+
+	column UnitsIn
+		dataType: int64
+		sourceColumn: UnitsIn
+
+	column UnitsOut
+		dataType: int64
+		sourceColumn: UnitsOut
+
+	column UnitsBalance
+		dataType: int64
+		sourceColumn: UnitsBalance
+
+	partition FactProductInventory-07800410-ab9b-48fd-839d-1efd36f3aa58 = query
+		source
+			query = SELECT * FROM [dbo].[FactProductInventory]
+			dataSource: 'Source.MSSQL'
+

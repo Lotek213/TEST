@@ -1,0 +1,151 @@
+table DimProduct
+
+	column DimProductId
+		dataType: int64
+		sourceColumn: DimProductId
+
+	column ProductAlternateKey
+		dataType: string
+		sourceColumn: ProductAlternateKey
+
+	column ProductSubcategoryKey
+		dataType: int64
+		sourceColumn: ProductSubcategoryKey
+
+	column WeightUnitMeasureCode
+		dataType: string
+		sourceColumn: WeightUnitMeasureCode
+
+	column SizeUnitMeasureCode
+		dataType: string
+		sourceColumn: SizeUnitMeasureCode
+
+	column EnglishProductName
+		dataType: string
+		sourceColumn: EnglishProductName
+
+	column SpanishProductName
+		dataType: string
+		sourceColumn: SpanishProductName
+
+	column FrenchProductName
+		dataType: string
+		sourceColumn: FrenchProductName
+
+	column StandardCost
+		dataType: decimal
+		sourceColumn: StandardCost
+
+	column FinishedGoodsFlag
+		dataType: boolean
+		sourceColumn: FinishedGoodsFlag
+
+	column Color
+		dataType: string
+		sourceColumn: Color
+
+	column SafetyStockLevel
+		dataType: int64
+		sourceColumn: SafetyStockLevel
+
+	column ReorderPoint
+		dataType: int64
+		sourceColumn: ReorderPoint
+
+	column ListPrice
+		dataType: decimal
+		sourceColumn: ListPrice
+
+	column Size
+		dataType: string
+		sourceColumn: Size
+
+	column SizeRange
+		dataType: string
+		sourceColumn: SizeRange
+
+	column Weight
+		dataType: double
+		sourceColumn: Weight
+
+	column DaysToManufacture
+		dataType: int64
+		sourceColumn: DaysToManufacture
+
+	column ProductLine
+		dataType: string
+		sourceColumn: ProductLine
+
+	column DealerPrice
+		dataType: decimal
+		sourceColumn: DealerPrice
+
+	column Class
+		dataType: string
+		sourceColumn: Class
+
+	column Style
+		dataType: string
+		sourceColumn: Style
+
+	column ModelName
+		dataType: string
+		sourceColumn: ModelName
+
+	column LargePhoto
+		dataType: binary
+		sourceColumn: LargePhoto
+
+	column EnglishDescription
+		dataType: string
+		sourceColumn: EnglishDescription
+
+	column FrenchDescription
+		dataType: string
+		sourceColumn: FrenchDescription
+
+	column ChineseDescription
+		dataType: string
+		sourceColumn: ChineseDescription
+
+	column ArabicDescription
+		dataType: string
+		sourceColumn: ArabicDescription
+
+	column HebrewDescription
+		dataType: string
+		sourceColumn: HebrewDescription
+
+	column ThaiDescription
+		dataType: string
+		sourceColumn: ThaiDescription
+
+	column GermanDescription
+		dataType: string
+		sourceColumn: GermanDescription
+
+	column JapaneseDescription
+		dataType: string
+		sourceColumn: JapaneseDescription
+
+	column TurkishDescription
+		dataType: string
+		sourceColumn: TurkishDescription
+
+	column StartDate
+		dataType: dateTime
+		sourceColumn: StartDate
+
+	column EndDate
+		dataType: dateTime
+		sourceColumn: EndDate
+
+	column Status
+		dataType: string
+		sourceColumn: Status
+
+	partition DimProduct-f4fc6657-eea9-4ddd-aebc-97f453fbf147 = query
+		source
+			query = SELECT * FROM [dbo].[DimProduct]
+			dataSource: 'Source.MSSQL'
+

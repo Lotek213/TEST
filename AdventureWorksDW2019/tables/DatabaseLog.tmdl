@@ -1,0 +1,39 @@
+table DatabaseLog
+
+	column DatabaseLogID
+		dataType: int64
+		sourceColumn: DatabaseLogID
+
+	column PostTime
+		dataType: dateTime
+		sourceColumn: PostTime
+
+	column DatabaseUser
+		dataType: string
+		sourceColumn: DatabaseUser
+
+	column Event
+		dataType: string
+		sourceColumn: Event
+
+	column Schema
+		dataType: string
+		sourceColumn: Schema
+
+	column Object
+		dataType: string
+		sourceColumn: Object
+
+	column TSQL
+		dataType: string
+		sourceColumn: TSQL
+
+	column XmlEvent
+		dataType: string
+		sourceColumn: XmlEvent
+
+	partition DatabaseLog-8ed651b1-c736-4cc4-93e7-90c1c19d6649 = query
+		source
+			query = SELECT * FROM [dbo].[DatabaseLog]
+			dataSource: 'Source.MSSQL'
+

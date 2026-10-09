@@ -1,0 +1,23 @@
+table FactSales
+
+	column SalesAmount
+		dataType: string
+		sourceColumn: SalesAmount
+
+	column Quantity
+		dataType: string
+		sourceColumn: Quantity
+
+	column DimCustomerId
+		dataType: int64
+		sourceColumn: DimCustomerId
+
+	column DimProductId
+		dataType: int64
+		sourceColumn: DimProductId
+
+	partition FactSales-88b56367-4b9b-4273-8967-9cf2740b44c1 = query
+		source
+			query = SELECT * FROM [dbo].[FactSales]
+			dataSource: 'Source.MSSQL'
+

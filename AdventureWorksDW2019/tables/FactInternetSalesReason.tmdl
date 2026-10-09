@@ -1,0 +1,19 @@
+table FactInternetSalesReason
+
+	column SalesOrderNumber
+		dataType: string
+		sourceColumn: SalesOrderNumber
+
+	column SalesOrderLineNumber
+		dataType: int64
+		sourceColumn: SalesOrderLineNumber
+
+	column SalesReasonKey
+		dataType: int64
+		sourceColumn: SalesReasonKey
+
+	partition FactInternetSalesReason-54beae27-e489-4f8a-b79c-8eed68e86fa3 = query
+		source
+			query = SELECT * FROM [dbo].[FactInternetSalesReason]
+			dataSource: 'Source.MSSQL'
+

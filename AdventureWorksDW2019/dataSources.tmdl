@@ -1,0 +1,5 @@
+dataSource 'Source.MSSQL' = provider
+	connectionString: Provider=MSOLEDBSQL;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AdventureWorksDW2019
+	impersonationMode: impersonateAccount
+	account: .\Administrator
+

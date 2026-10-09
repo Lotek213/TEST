@@ -1,0 +1,115 @@
+table FactResellerSales
+
+	column ProductKey
+		dataType: int64
+		sourceColumn: ProductKey
+
+	column OrderDateKey
+		dataType: int64
+		sourceColumn: OrderDateKey
+
+	column DueDateKey
+		dataType: int64
+		sourceColumn: DueDateKey
+
+	column ShipDateKey
+		dataType: int64
+		sourceColumn: ShipDateKey
+
+	column ResellerKey
+		dataType: int64
+		sourceColumn: ResellerKey
+
+	column EmployeeKey
+		dataType: int64
+		sourceColumn: EmployeeKey
+
+	column PromotionKey
+		dataType: int64
+		sourceColumn: PromotionKey
+
+	column CurrencyKey
+		dataType: int64
+		sourceColumn: CurrencyKey
+
+	column SalesTerritoryKey
+		dataType: int64
+		sourceColumn: SalesTerritoryKey
+
+	column SalesOrderNumber
+		dataType: string
+		sourceColumn: SalesOrderNumber
+
+	column SalesOrderLineNumber
+		dataType: int64
+		sourceColumn: SalesOrderLineNumber
+
+	column RevisionNumber
+		dataType: int64
+		sourceColumn: RevisionNumber
+
+	column OrderQuantity
+		dataType: int64
+		sourceColumn: OrderQuantity
+
+	column UnitPrice
+		dataType: decimal
+		sourceColumn: UnitPrice
+
+	column ExtendedAmount
+		dataType: decimal
+		sourceColumn: ExtendedAmount
+
+	column UnitPriceDiscountPct
+		dataType: double
+		sourceColumn: UnitPriceDiscountPct
+
+	column DiscountAmount
+		dataType: double
+		sourceColumn: DiscountAmount
+
+	column ProductStandardCost
+		dataType: decimal
+		sourceColumn: ProductStandardCost
+
+	column TotalProductCost
+		dataType: decimal
+		sourceColumn: TotalProductCost
+
+	column SalesAmount
+		dataType: decimal
+		sourceColumn: SalesAmount
+
+	column TaxAmt
+		dataType: decimal
+		sourceColumn: TaxAmt
+
+	column Freight
+		dataType: decimal
+		sourceColumn: Freight
+
+	column CarrierTrackingNumber
+		dataType: string
+		sourceColumn: CarrierTrackingNumber
+
+	column CustomerPONumber
+		dataType: string
+		sourceColumn: CustomerPONumber
+
+	column OrderDate
+		dataType: dateTime
+		sourceColumn: OrderDate
+
+	column DueDate
+		dataType: dateTime
+		sourceColumn: DueDate
+
+	column ShipDate
+		dataType: dateTime
+		sourceColumn: ShipDate
+
+	partition FactResellerSales-fbc2699b-8480-4e53-a363-b68b3b76a0cc = query
+		source
+			query = SELECT * FROM [dbo].[FactResellerSales]
+			dataSource: 'Source.MSSQL'
+

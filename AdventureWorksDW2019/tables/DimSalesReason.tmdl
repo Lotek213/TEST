@@ -1,0 +1,23 @@
+table DimSalesReason
+
+	column SalesReasonKey
+		dataType: int64
+		sourceColumn: SalesReasonKey
+
+	column SalesReasonAlternateKey
+		dataType: int64
+		sourceColumn: SalesReasonAlternateKey
+
+	column SalesReasonName
+		dataType: string
+		sourceColumn: SalesReasonName
+
+	column SalesReasonReasonType
+		dataType: string
+		sourceColumn: SalesReasonReasonType
+
+	partition DimSalesReason-efa18d87-6ba7-4976-9016-6ccdadfe81e7 = query
+		source
+			query = SELECT * FROM [dbo].[DimSalesReason]
+			dataSource: 'Source.MSSQL'
+

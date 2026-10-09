@@ -1,0 +1,39 @@
+table FactFinance
+
+	column FinanceKey
+		dataType: int64
+		sourceColumn: FinanceKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column OrganizationKey
+		dataType: int64
+		sourceColumn: OrganizationKey
+
+	column DepartmentGroupKey
+		dataType: int64
+		sourceColumn: DepartmentGroupKey
+
+	column ScenarioKey
+		dataType: int64
+		sourceColumn: ScenarioKey
+
+	column AccountKey
+		dataType: int64
+		sourceColumn: AccountKey
+
+	column Amount
+		dataType: double
+		sourceColumn: Amount
+
+	column Date
+		dataType: dateTime
+		sourceColumn: Date
+
+	partition FactFinance-374019f5-5929-4fce-ad8c-1e4fa54491e1 = query
+		source
+			query = SELECT * FROM [dbo].[FactFinance]
+			dataSource: 'Source.MSSQL'
+

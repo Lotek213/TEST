@@ -1,0 +1,71 @@
+table DimPromotion
+
+	column PromotionKey
+		dataType: int64
+		sourceColumn: PromotionKey
+
+	column PromotionAlternateKey
+		dataType: int64
+		sourceColumn: PromotionAlternateKey
+
+	column EnglishPromotionName
+		dataType: string
+		sourceColumn: EnglishPromotionName
+
+	column SpanishPromotionName
+		dataType: string
+		sourceColumn: SpanishPromotionName
+
+	column FrenchPromotionName
+		dataType: string
+		sourceColumn: FrenchPromotionName
+
+	column DiscountPct
+		dataType: double
+		sourceColumn: DiscountPct
+
+	column EnglishPromotionType
+		dataType: string
+		sourceColumn: EnglishPromotionType
+
+	column SpanishPromotionType
+		dataType: string
+		sourceColumn: SpanishPromotionType
+
+	column FrenchPromotionType
+		dataType: string
+		sourceColumn: FrenchPromotionType
+
+	column EnglishPromotionCategory
+		dataType: string
+		sourceColumn: EnglishPromotionCategory
+
+	column SpanishPromotionCategory
+		dataType: string
+		sourceColumn: SpanishPromotionCategory
+
+	column FrenchPromotionCategory
+		dataType: string
+		sourceColumn: FrenchPromotionCategory
+
+	column StartDate
+		dataType: dateTime
+		sourceColumn: StartDate
+
+	column EndDate
+		dataType: dateTime
+		sourceColumn: EndDate
+
+	column MinQty
+		dataType: int64
+		sourceColumn: MinQty
+
+	column MaxQty
+		dataType: int64
+		sourceColumn: MaxQty
+
+	partition DimPromotion-39d97e10-6c6c-4dea-9d9a-e874b91c81e9 = query
+		source
+			query = SELECT * FROM [dbo].[DimPromotion]
+			dataSource: 'Source.MSSQL'
+

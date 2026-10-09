@@ -1,0 +1,31 @@
+table DimSalesTerritory
+
+	column SalesTerritoryKey
+		dataType: int64
+		sourceColumn: SalesTerritoryKey
+
+	column SalesTerritoryAlternateKey
+		dataType: int64
+		sourceColumn: SalesTerritoryAlternateKey
+
+	column SalesTerritoryRegion
+		dataType: string
+		sourceColumn: SalesTerritoryRegion
+
+	column SalesTerritoryCountry
+		dataType: string
+		sourceColumn: SalesTerritoryCountry
+
+	column SalesTerritoryGroup
+		dataType: string
+		sourceColumn: SalesTerritoryGroup
+
+	column SalesTerritoryImage
+		dataType: binary
+		sourceColumn: SalesTerritoryImage
+
+	partition DimSalesTerritory-efff999f-0424-4de9-90a4-f3efa54735d4 = query
+		source
+			query = SELECT * FROM [dbo].[DimSalesTerritory]
+			dataSource: 'Source.MSSQL'
+

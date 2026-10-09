@@ -1,0 +1,123 @@
+table DimCustomer
+
+	column DimCustomerId
+		dataType: int64
+		sourceColumn: DimCustomerId
+
+	column GeographyKey
+		dataType: int64
+		sourceColumn: GeographyKey
+
+	column CustomerAlternateKey
+		dataType: string
+		sourceColumn: CustomerAlternateKey
+
+	column Title
+		dataType: string
+		sourceColumn: Title
+
+	column FirstName
+		dataType: string
+		sourceColumn: FirstName
+
+	column MiddleName
+		dataType: string
+		sourceColumn: MiddleName
+
+	column LastName
+		dataType: string
+		sourceColumn: LastName
+
+	column NameStyle
+		dataType: boolean
+		sourceColumn: NameStyle
+
+	column BirthDate
+		dataType: dateTime
+		sourceColumn: BirthDate
+
+	column MaritalStatus
+		dataType: string
+		sourceColumn: MaritalStatus
+
+	column Suffix
+		dataType: string
+		sourceColumn: Suffix
+
+	column Gender
+		dataType: string
+		sourceColumn: Gender
+
+	column EmailAddress
+		dataType: string
+		sourceColumn: EmailAddress
+
+	column YearlyIncome
+		dataType: decimal
+		sourceColumn: YearlyIncome
+
+	column TotalChildren
+		dataType: int64
+		sourceColumn: TotalChildren
+
+	column NumberChildrenAtHome
+		dataType: int64
+		sourceColumn: NumberChildrenAtHome
+
+	column EnglishEducation
+		dataType: string
+		sourceColumn: EnglishEducation
+
+	column SpanishEducation
+		dataType: string
+		sourceColumn: SpanishEducation
+
+	column FrenchEducation
+		dataType: string
+		sourceColumn: FrenchEducation
+
+	column EnglishOccupation
+		dataType: string
+		sourceColumn: EnglishOccupation
+
+	column SpanishOccupation
+		dataType: string
+		sourceColumn: SpanishOccupation
+
+	column FrenchOccupation
+		dataType: string
+		sourceColumn: FrenchOccupation
+
+	column HouseOwnerFlag
+		dataType: string
+		sourceColumn: HouseOwnerFlag
+
+	column NumberCarsOwned
+		dataType: int64
+		sourceColumn: NumberCarsOwned
+
+	column AddressLine1
+		dataType: string
+		sourceColumn: AddressLine1
+
+	column AddressLine2
+		dataType: string
+		sourceColumn: AddressLine2
+
+	column Phone
+		dataType: string
+		sourceColumn: Phone
+
+	column DateFirstPurchase
+		dataType: dateTime
+		sourceColumn: DateFirstPurchase
+
+	column CommuteDistance
+		dataType: string
+		sourceColumn: CommuteDistance
+
+	partition DimCustomer-9c70ad17-91e3-4d4f-aaff-cad2a3ff7a73 = query
+		source
+			query = SELECT * FROM [dbo].[DimCustomer]
+			dataSource: 'Source.MSSQL'
+

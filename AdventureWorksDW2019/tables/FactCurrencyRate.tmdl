@@ -1,0 +1,27 @@
+table FactCurrencyRate
+
+	column CurrencyKey
+		dataType: int64
+		sourceColumn: CurrencyKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column AverageRate
+		dataType: double
+		sourceColumn: AverageRate
+
+	column EndOfDayRate
+		dataType: double
+		sourceColumn: EndOfDayRate
+
+	column Date
+		dataType: dateTime
+		sourceColumn: Date
+
+	partition FactCurrencyRate-2dd568f8-687e-4e4e-9f15-797875456a36 = query
+		source
+			query = SELECT * FROM [dbo].[FactCurrencyRate]
+			dataSource: 'Source.MSSQL'
+

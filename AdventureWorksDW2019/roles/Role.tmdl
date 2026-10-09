@@ -1,0 +1,4 @@
+role Role
+	modelPermission: read
+
+	member Administrator = activeDirectory

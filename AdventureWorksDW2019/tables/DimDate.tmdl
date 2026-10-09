@@ -1,0 +1,83 @@
+table DimDate
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column FullDateAlternateKey
+		dataType: dateTime
+		sourceColumn: FullDateAlternateKey
+
+	column DayNumberOfWeek
+		dataType: int64
+		sourceColumn: DayNumberOfWeek
+
+	column EnglishDayNameOfWeek
+		dataType: string
+		sourceColumn: EnglishDayNameOfWeek
+
+	column SpanishDayNameOfWeek
+		dataType: string
+		sourceColumn: SpanishDayNameOfWeek
+
+	column FrenchDayNameOfWeek
+		dataType: string
+		sourceColumn: FrenchDayNameOfWeek
+
+	column DayNumberOfMonth
+		dataType: int64
+		sourceColumn: DayNumberOfMonth
+
+	column DayNumberOfYear
+		dataType: int64
+		sourceColumn: DayNumberOfYear
+
+	column WeekNumberOfYear
+		dataType: int64
+		sourceColumn: WeekNumberOfYear
+
+	column EnglishMonthName
+		dataType: string
+		sourceColumn: EnglishMonthName
+
+	column SpanishMonthName
+		dataType: string
+		sourceColumn: SpanishMonthName
+
+	column FrenchMonthName
+		dataType: string
+		sourceColumn: FrenchMonthName
+
+	column MonthNumberOfYear
+		dataType: int64
+		sourceColumn: MonthNumberOfYear
+
+	column CalendarQuarter
+		dataType: int64
+		sourceColumn: CalendarQuarter
+
+	column CalendarYear
+		dataType: int64
+		sourceColumn: CalendarYear
+
+	column CalendarSemester
+		dataType: int64
+		sourceColumn: CalendarSemester
+
+	column FiscalQuarter
+		dataType: int64
+		sourceColumn: FiscalQuarter
+
+	column FiscalYear
+		dataType: int64
+		sourceColumn: FiscalYear
+
+	column FiscalSemester
+		dataType: int64
+		sourceColumn: FiscalSemester
+
+	partition DimDate-f55e228a-c32a-43e7-b150-9c62baa7a7b2 = query
+		source
+			query = SELECT * FROM [dbo].[DimDate]
+			dataSource: 'Source.MSSQL'
+

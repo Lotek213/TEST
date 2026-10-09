@@ -1,0 +1,39 @@
+table FactSurveyResponse
+
+	column SurveyResponseKey
+		dataType: int64
+		sourceColumn: SurveyResponseKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column CustomerKey
+		dataType: int64
+		sourceColumn: CustomerKey
+
+	column ProductCategoryKey
+		dataType: int64
+		sourceColumn: ProductCategoryKey
+
+	column EnglishProductCategoryName
+		dataType: string
+		sourceColumn: EnglishProductCategoryName
+
+	column ProductSubcategoryKey
+		dataType: int64
+		sourceColumn: ProductSubcategoryKey
+
+	column EnglishProductSubcategoryName
+		dataType: string
+		sourceColumn: EnglishProductSubcategoryName
+
+	column Date
+		dataType: dateTime
+		sourceColumn: Date
+
+	partition FactSurveyResponse-883d64ee-bd92-427a-a7a1-19921aca2c75 = query
+		source
+			query = SELECT * FROM [dbo].[FactSurveyResponse]
+			dataSource: 'Source.MSSQL'
+

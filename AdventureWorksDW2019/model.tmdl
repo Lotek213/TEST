@@ -1,0 +1,41 @@
+model Model
+	culture: en-US
+
+ref table NowaTabela
+ref table NowaTabela1607
+ref table FactSales
+ref table DupnaTabela1934
+ref table DimProduct20
+ref table DatabaseLog
+ref table DimTimestamp
+ref table AdventureWorksDWBuildVersion
+ref table DimAccount
+ref table DimCurrency
+ref table DimCustomer
+ref table DimDate
+ref table DimDepartmentGroup
+ref table DimEmployee
+ref table DimGeography
+ref table DimOrganization
+ref table DimProduct
+ref table DimProductCategory
+ref table DimProductSubcategory
+ref table DimPromotion
+ref table DimReseller
+ref table DimSalesReason
+ref table DimSalesTerritory
+ref table DimScenario
+ref table FactAdditionalInternationalProductDescription
+ref table FactCallCenter
+ref table FactCurrencyRate
+ref table FactFinance
+ref table FactInternetSales
+ref table FactInternetSalesReason
+ref table FactProductInventory
+ref table FactResellerSales
+ref table FactSalesQuota
+ref table FactSurveyResponse
+ref table NewFactCurrencyRate
+ref table ProspectiveBuyer
+ref table sysdiagrams
+

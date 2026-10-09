@@ -1,0 +1,27 @@
+table DimOrganization
+
+	column OrganizationKey
+		dataType: int64
+		sourceColumn: OrganizationKey
+
+	column ParentOrganizationKey
+		dataType: int64
+		sourceColumn: ParentOrganizationKey
+
+	column PercentageOfOwnership
+		dataType: string
+		sourceColumn: PercentageOfOwnership
+
+	column OrganizationName
+		dataType: string
+		sourceColumn: OrganizationName
+
+	column CurrencyKey
+		dataType: int64
+		sourceColumn: CurrencyKey
+
+	partition DimOrganization-d421cddd-db35-4eca-8383-afe19270897f = query
+		source
+			query = SELECT * FROM [dbo].[DimOrganization]
+			dataSource: 'Source.MSSQL'
+

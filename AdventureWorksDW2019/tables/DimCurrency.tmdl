@@ -1,0 +1,19 @@
+table DimCurrency
+
+	column CurrencyKey
+		dataType: int64
+		sourceColumn: CurrencyKey
+
+	column CurrencyAlternateKey
+		dataType: string
+		sourceColumn: CurrencyAlternateKey
+
+	column CurrencyName
+		dataType: string
+		sourceColumn: CurrencyName
+
+	partition DimCurrency-63f4baa6-8e46-40d2-9fc9-fef18109f7ba = query
+		source
+			query = SELECT * FROM [dbo].[DimCurrency]
+			dataSource: 'Source.MSSQL'
+

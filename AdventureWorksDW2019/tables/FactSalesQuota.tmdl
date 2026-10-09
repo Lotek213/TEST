@@ -1,0 +1,35 @@
+table FactSalesQuota
+
+	column SalesQuotaKey
+		dataType: int64
+		sourceColumn: SalesQuotaKey
+
+	column EmployeeKey
+		dataType: int64
+		sourceColumn: EmployeeKey
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column CalendarYear
+		dataType: int64
+		sourceColumn: CalendarYear
+
+	column CalendarQuarter
+		dataType: int64
+		sourceColumn: CalendarQuarter
+
+	column SalesAmountQuota
+		dataType: decimal
+		sourceColumn: SalesAmountQuota
+
+	column Date
+		dataType: dateTime
+		sourceColumn: Date
+
+	partition FactSalesQuota-fd233be1-fb2e-43c4-b804-aaa79e9a22b9 = query
+		source
+			query = SELECT * FROM [dbo].[FactSalesQuota]
+			dataSource: 'Source.MSSQL'
+

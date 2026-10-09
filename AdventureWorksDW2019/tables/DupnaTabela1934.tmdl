@@ -1,0 +1,15 @@
+table DupnaTabela1934
+
+	column dd
+		dataType: string
+		sourceColumn: dd
+
+	column ddd
+		dataType: string
+		sourceColumn: ddd
+
+	partition DupnaTabela1934-ac42e02f-1ac1-44da-b4a8-d85ba2500977 = query
+		source
+			query = SELECT * FROM [dbo].[DupnaTabela1934]
+			dataSource: 'Source.MSSQL'
+

@@ -1,0 +1,131 @@
+table DimEmployee
+
+	column EmployeeKey
+		dataType: int64
+		sourceColumn: EmployeeKey
+
+	column ParentEmployeeKey
+		dataType: int64
+		sourceColumn: ParentEmployeeKey
+
+	column EmployeeNationalIDAlternateKey
+		dataType: string
+		sourceColumn: EmployeeNationalIDAlternateKey
+
+	column ParentEmployeeNationalIDAlternateKey
+		dataType: string
+		sourceColumn: ParentEmployeeNationalIDAlternateKey
+
+	column SalesTerritoryKey
+		dataType: int64
+		sourceColumn: SalesTerritoryKey
+
+	column FirstName
+		dataType: string
+		sourceColumn: FirstName
+
+	column LastName
+		dataType: string
+		sourceColumn: LastName
+
+	column MiddleName
+		dataType: string
+		sourceColumn: MiddleName
+
+	column NameStyle
+		dataType: boolean
+		sourceColumn: NameStyle
+
+	column Title
+		dataType: string
+		sourceColumn: Title
+
+	column HireDate
+		dataType: dateTime
+		sourceColumn: HireDate
+
+	column BirthDate
+		dataType: dateTime
+		sourceColumn: BirthDate
+
+	column LoginID
+		dataType: string
+		sourceColumn: LoginID
+
+	column EmailAddress
+		dataType: string
+		sourceColumn: EmailAddress
+
+	column Phone
+		dataType: string
+		sourceColumn: Phone
+
+	column MaritalStatus
+		dataType: string
+		sourceColumn: MaritalStatus
+
+	column EmergencyContactName
+		dataType: string
+		sourceColumn: EmergencyContactName
+
+	column EmergencyContactPhone
+		dataType: string
+		sourceColumn: EmergencyContactPhone
+
+	column SalariedFlag
+		dataType: boolean
+		sourceColumn: SalariedFlag
+
+	column Gender
+		dataType: string
+		sourceColumn: Gender
+
+	column PayFrequency
+		dataType: int64
+		sourceColumn: PayFrequency
+
+	column BaseRate
+		dataType: decimal
+		sourceColumn: BaseRate
+
+	column VacationHours
+		dataType: int64
+		sourceColumn: VacationHours
+
+	column SickLeaveHours
+		dataType: int64
+		sourceColumn: SickLeaveHours
+
+	column CurrentFlag
+		dataType: boolean
+		sourceColumn: CurrentFlag
+
+	column SalesPersonFlag
+		dataType: boolean
+		sourceColumn: SalesPersonFlag
+
+	column DepartmentName
+		dataType: string
+		sourceColumn: DepartmentName
+
+	column StartDate
+		dataType: dateTime
+		sourceColumn: StartDate
+
+	column EndDate
+		dataType: dateTime
+		sourceColumn: EndDate
+
+	column Status
+		dataType: string
+		sourceColumn: Status
+
+	column EmployeePhoto
+		dataType: binary
+		sourceColumn: EmployeePhoto
+
+	partition DimEmployee-87c872ee-879e-441a-be66-6dc0a744542f = query
+		source
+			query = SELECT * FROM [dbo].[DimEmployee]
+			dataSource: 'Source.MSSQL'
+

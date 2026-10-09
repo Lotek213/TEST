@@ -1,0 +1,27 @@
+table DimProductCategory
+
+	column ProductCategoryKey
+		dataType: int64
+		sourceColumn: ProductCategoryKey
+
+	column ProductCategoryAlternateKey
+		dataType: int64
+		sourceColumn: ProductCategoryAlternateKey
+
+	column EnglishProductCategoryName
+		dataType: string
+		sourceColumn: EnglishProductCategoryName
+
+	column SpanishProductCategoryName
+		dataType: string
+		sourceColumn: SpanishProductCategoryName
+
+	column FrenchProductCategoryName
+		dataType: string
+		sourceColumn: FrenchProductCategoryName
+
+	partition DimProductCategory-d445839d-ac9f-4d1b-8b27-eda4c5911de7 = query
+		source
+			query = SELECT * FROM [dbo].[DimProductCategory]
+			dataSource: 'Source.MSSQL'
+

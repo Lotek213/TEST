@@ -1,0 +1,63 @@
+table FactCallCenter
+
+	column FactCallCenterID
+		dataType: int64
+		sourceColumn: FactCallCenterID
+
+	column DateKey
+		dataType: int64
+		sourceColumn: DateKey
+
+	column WageType
+		dataType: string
+		sourceColumn: WageType
+
+	column Shift
+		dataType: string
+		sourceColumn: Shift
+
+	column LevelOneOperators
+		dataType: int64
+		sourceColumn: LevelOneOperators
+
+	column LevelTwoOperators
+		dataType: int64
+		sourceColumn: LevelTwoOperators
+
+	column TotalOperators
+		dataType: int64
+		sourceColumn: TotalOperators
+
+	column Calls
+		dataType: int64
+		sourceColumn: Calls
+
+	column AutomaticResponses
+		dataType: int64
+		sourceColumn: AutomaticResponses
+
+	column Orders
+		dataType: int64
+		sourceColumn: Orders
+
+	column IssuesRaised
+		dataType: int64
+		sourceColumn: IssuesRaised
+
+	column AverageTimePerIssue
+		dataType: int64
+		sourceColumn: AverageTimePerIssue
+
+	column ServiceGrade
+		dataType: double
+		sourceColumn: ServiceGrade
+
+	column Date
+		dataType: dateTime
+		sourceColumn: Date
+
+	partition FactCallCenter-c1964539-f26e-43cc-be7e-79c2d3ec9a74 = query
+		source
+			query = SELECT * FROM [dbo].[FactCallCenter]
+			dataSource: 'Source.MSSQL'
+

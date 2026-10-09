@@ -1,0 +1,15 @@
+table AdventureWorksDWBuildVersion
+
+	column DBVersion
+		dataType: string
+		sourceColumn: DBVersion
+
+	column VersionDate
+		dataType: dateTime
+		sourceColumn: VersionDate
+
+	partition AdventureWorksDWBuildVersion-63af0688-81f4-4764-bad7-4a19d6a67253 = query
+		source
+			query = SELECT * FROM [dbo].[AdventureWorksDWBuildVersion]
+			dataSource: 'Source.MSSQL'
+

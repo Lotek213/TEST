@@ -1,0 +1,19 @@
+table DimTimestamp
+
+	column DimTimestampID
+		dataType: int64
+		sourceColumn: DimTimestampID
+
+	column Timestamp
+		dataType: string
+		sourceColumn: Timestamp
+
+	column String
+		dataType: string
+		sourceColumn: String
+
+	partition DimTimestamp-2b26314e-d01c-4104-abeb-e4b182c69d72 = query
+		source
+			query = SELECT * FROM [dbo].[DimTimestamp]
+			dataSource: 'Source.MSSQL'
+

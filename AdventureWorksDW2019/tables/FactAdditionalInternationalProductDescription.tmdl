@@ -1,0 +1,19 @@
+table FactAdditionalInternationalProductDescription
+
+	column ProductKey
+		dataType: int64
+		sourceColumn: ProductKey
+
+	column CultureName
+		dataType: string
+		sourceColumn: CultureName
+
+	column ProductDescription
+		dataType: string
+		sourceColumn: ProductDescription
+
+	partition FactAdditionalInternationalProductDescription-47b4925d-8752-4457-a754-42e5972902d7 = query
+		source
+			query = SELECT * FROM [dbo].[FactAdditionalInternationalProductDescription]
+			dataSource: 'Source.MSSQL'
+
