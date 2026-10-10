@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minutnik 2-minutowy (4 x 30s)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.72);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-muted: #94a3b8;
+      
+      --q1-color: #38bdf8;
+      --q2-color: #818cf8;
+      --q3-color: #c084fc;
+      --q4-color: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 15%, #172545 0%, var(--bg) 70%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      padding: 24px 16px;
+      overflow-x: hidden;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, rgba(129, 140, 248, 0.05) 50%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(50px);
+      transition: transform 0.8s ease;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 540px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border);
+      border-radius: 32px;
+      padding: 34px 28px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7),
+                  0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    header h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #f8fafc, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Circle Chart Container */
+    .dial-wrapper {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    .dial-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg); /* 12 o'clock start */
+      overflow: visible;
+    }
+
+    .track-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.04);
+      stroke-width: 22;
+    }
+
+    /* 4 Quadrants background segments on track */
+    .quadrant-seg {
+      fill: none;
+      stroke-width: 22;
+      opacity: 0.14;
+      transition: opacity 0.4s ease, filter 0.4s ease;
+    }
+
+    .quadrant-seg.active {
+      opacity: 0.38;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .quadrant-seg.completed {
+      opacity: 0.22;
+    }
+
+    /* Main active progress ring */
+    .progress-ring {
+      fill: none;
+      stroke-width: 22;
+      stroke-linecap: round;
+      stroke: url(#progress-gradient);
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    /* Quadrant dividers */
+    .divider-line {
+      stroke: #090d16;
+      stroke-width: 4;
+    }
+
+    /* Center Timer Display */
+    .center-display {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .timer-digits {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-subtitle {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: color 0.3s ease;
+    }
+
+    .quadrant-countdown {
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.22);
+    }
+
+    /* Quadrant Overview Cards (4 x 30s) */
+    .quadrants-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 26px;
+    }
+
+    .q-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 12px 6px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .q-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+
+    .q-card.q1::before { background: var(--q1-color); }
+    .q-card.q2::before { background: var(--q2-color); }
+    .q-card.q3::before { background: var(--q3-color); }
+    .q-card.q4::before { background: var(--q4-color); }
+
+    .q-card.active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .q-card.active.q1 { box-shadow: 0 6px 18px -4px rgba(56, 189, 248, 0.3); border-color: rgba(56, 189, 248, 0.5); }
+    .q-card.active.q2 { box-shadow: 0 6px 18px -4px rgba(129, 140, 248, 0.3); border-color: rgba(129, 140, 248, 0.5); }
+    .q-card.active.q3 { box-shadow: 0 6px 18px -4px rgba(192, 132, 252, 0.3); border-color: rgba(192, 132, 252, 0.5); }
+    .q-card.active.q4 { box-shadow: 0 6px 18px -4px rgba(52, 211, 153, 0.3); border-color: rgba(52, 211, 153, 0.5); }
+
+    .q-card.completed {
+      opacity: 0.65;
+    }
+
+    .q-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .q-card.active .q-name {
+      color: #fff;
+    }
+
+    .q-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .q-status {
+      font-size: 0.65rem;
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .q-card.active .q-status {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .q-card.completed .q-status {
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    /* Controls Bar */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 16px;
+      padding: 14px 24px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      flex: 1;
+      max-width: 200px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #04101e;
+      font-weight: 700;
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary.paused {
+      background: linear-gradient(135deg, #eab308, #fde047);
+      color: #362503;
+      box-shadow: 0 4px 18px rgba(234, 179, 8, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 18px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: 14px;
+    }
+
+    /* Sound Switch & Footer Info */
+    .footer-bar {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .sound-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .sound-toggle:hover {
+      color: var(--text-main);
+    }
+
+    .sound-toggle input {
+      display: none;
+    }
+
+    .switch-track {
+      width: 38px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      position: relative;
+      transition: background 0.25s ease;
+    }
+
+    .switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s ease;
+    }
+
+    .sound-toggle input:checked + .switch-track {
+      background: #38bdf8;
+    }
+
+    .sound-toggle input:checked + .switch-track .switch-thumb {
+      transform: translateX(16px);
+    }
+
+    /* Pulse animation on quadrant switch */
+    @keyframes quadPulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+      50% { transform: scale(1.03); filter: drop-shadow(0 0 16px rgba(56,189,248,0.7)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+    }
+
+    .pulse {
+      animation: quadPulse 0.5s ease-out;
+    }
+
+    /* Finished celebration overlay */
+    .finish-banner {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 13, 22, 0.9);
+      backdrop-filter: blur(14px);
+      border-radius: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .finish-banner.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .finish-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #10b981, #34d399);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      animation: bounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .finish-banner h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .finish-banner p {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 440px) {
+      .dial-wrapper {
+        width: 270px;
+        height: 270px;
+      }
+      .timer-digits {
+        font-size: 2.8rem;
+      }
+      .quadrants-grid {
+        gap: 6px;
+      }
+      .q-card {
+        padding: 10px 4px;
+      }
+      .q-time {
+        font-size: 0.72rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow" id="ambientGlow"></div>
+
+  <main class="app-container">
+    <header>
+      <h1>Minutnik 2-minutowy</h1>
+      <p>
+        <span>4 ćwiartki po 30 sekund</span>
+        <span class="badge">Razem: 120s</span>
+      </p>
+    </header>
+
+    <!-- Circular Dial -->
+    <div class="dial-wrapper" id="dialWrapper">
+      <svg class="dial-svg" viewBox="0 0 320 320">
+        <defs>
+          <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" />
+            <stop offset="33%" stop-color="#818cf8" />
+            <stop offset="66%" stop-color="#c084fc" />
+            <stop offset="100%" stop-color="#34d399" />
+          </linearGradient>
+        </defs>
+
+        <!-- Base Background Track -->
+        <circle class="track-bg" cx="160" cy="160" r="130" />
+
+        <!-- 4 Quadrant Background Segments (each arc length = 202.2 on 816.8 circumference) -->
+        <circle id="seg1" class="quadrant-seg" cx="160" cy="160" r="130"
+          stroke="#38bdf8"
+          stroke-dasharray="202.2 614.6"
+          stroke-dashoffset="0" />
+
+        <circle id="seg2" class="quadrant-seg" cx="160" cy="160" r="130"
+          stroke="#818cf8"
+          stroke-dasharray="202.2 614.6"
+          stroke-dashoffset="-204.2" />
+
+        <circle id="seg3" class="quadrant-seg" cx="160" cy="160" r="130"
+          stroke="#c084fc"
+          stroke-dasharray="202.2 614.6"
+          stroke-dashoffset="-408.4" />
+
+        <circle id="seg4" class="quadrant-seg" cx="160" cy="160" r="130"
+          stroke="#34d399"
+          stroke-dasharray="202.2 614.6"
+          stroke-dashoffset="-612.6" />
+
+        <!-- Quadrant Dividers at 0 deg, 90 deg, 180 deg, 270 deg -->
+        <line class="divider-line" x1="277" y1="160" x2="303" y2="160" />
+        <line class="divider-line" x1="160" y1="277" x2="160" y2="303" />
+        <line class="divider-line" x1="43"  y1="160" x2="17"  y2="160" />
+        <line class="divider-line" x1="160" y1="43"  x2="160" y2="17"  />
+
+        <!-- Active Progress Ring -->
+        <circle id="progressRing" class="progress-ring" cx="160" cy="160" r="130"
+          stroke-dasharray="816.8"
+          stroke-dashoffset="0" />
+      </svg>
+
+      <!-- Center content -->
+      <div class="center-display">
+        <div class="timer-digits" id="timerDisplay">02:00</div>
+        <div class="timer-subtitle" id="quadrantTitle">Ćwiartka 1 / 4</div>
+        <div class="quadrant-countdown" id="quadrantRemaining">Pozostało: 30.0s</div>
+      </div>
+    </div>
+
+    <!-- 4 Quadrants Visual Grid -->
+    <div class="quadrants-grid">
+      <div class="q-card q1 active" id="cardQ1">
+        <div class="q-name">Ćwiartka 1</div>
+        <div class="q-time">0:00 - 0:30</div>
+        <div class="q-status" id="statusQ1">Aktywna</div>
+      </div>
+      <div class="q-card q2" id="cardQ2">
+        <div class="q-name">Ćwiartka 2</div>
+        <div class="q-time">0:30 - 1:00</div>
+        <div class="q-status" id="statusQ2">Oczekuje</div>
+      </div>
+      <div class="q-card q3" id="cardQ3">
+        <div class="q-name">Ćwiartka 3</div>
+        <div class="q-time">1:00 - 1:30</div>
+        <div class="q-status" id="statusQ3">Oczekuje</div>
+      </div>
+      <div class="q-card q4" id="cardQ4">
+        <div class="q-name">Ćwiartka 4</div>
+        <div class="q-time">1:30 - 2:00</div>
+        <div class="q-status" id="statusQ4">Oczekuje</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn btn-secondary btn-icon" id="resetBtn" title="Resetuj minutnik (R)" aria-label="Resetuj">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+        </svg>
+      </button>
+
+      <button class="btn btn-primary" id="startBtn">
+        <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <span id="startBtnText">Rozpocznij</span>
+      </button>
+
+      <button class="btn btn-secondary btn-icon" id="skipBtn" title="Przeskocz do kolejnej ćwiartki (+30s)" aria-label="Następna ćwiartka">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 4 15 12 5 20 5 4" fill="currentColor"/>
+          <line x1="19" y1="5" x2="19" y2="19"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Footer Settings & Info -->
+    <div class="footer-bar">
+      <label class="sound-toggle">
+        <input type="checkbox" id="soundToggle" checked>
+        <div class="switch-track">
+          <div class="switch-thumb"></div>
+        </div>
+        <span>Dźwięki gongów</span>
+      </label>
+
+      <span id="completionRate">0% ukończono</span>
+    </div>
+
+    <!-- Finished Modal Overlay -->
+    <div class="finish-banner" id="finishBanner">
+      <div class="finish-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Koniec czasu!</h2>
+      <p>Pełne 2 minuty (4 ćwiartki po 30s) zostały odliczone.</p>
+      <button class="btn btn-primary" id="finishRestartBtn">
+        <span>Zacznij ponownie</span>
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // --- State Constants & Variables ---
+    const TOTAL_SECONDS = 120; // 2 minutes
+    const QUADRANT_SECONDS = 30; // 30 seconds per quadrant
+    const CIRCUMFERENCE = 2 * Math.PI * 130; // ~816.814
+
+    let remainingTime = TOTAL_SECONDS;
+    let isRunning = false;
+    let timerInterval = null;
+    let lastTimestamp = null;
+    let previousQuadrant = 1;
+
+    // Elements
+    const timerDisplay = document.getElementById('timerDisplay');
+    const quadrantTitle = document.getElementById('quadrantTitle');
+    const quadrantRemaining = document.getElementById('quadrantRemaining');
+    const progressRing = document.getElementById('progressRing');
+    const startBtn = document.getElementById('startBtn');
+    const startBtnText = document.getElementById('startBtnText');
+    const playIcon = document.getElementById('playIcon');
+    const resetBtn = document.getElementById('resetBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const soundToggle = document.getElementById('soundToggle');
+    const completionRate = document.getElementById('completionRate');
+    const finishBanner = document.getElementById('finishBanner');
+    const finishRestartBtn = document.getElementById('finishRestartBtn');
+    const dialWrapper = document.getElementById('dialWrapper');
+
+    const segElements = [
+      document.getElementById('seg1'),
+      document.getElementById('seg2'),
+      document.getElementById('seg3'),
+      document.getElementById('seg4')
+    ];
+
+    const cardElements = [
+      document.getElementById('cardQ1'),
+      document.getElementById('cardQ2'),
+      document.getElementById('cardQ3'),
+      document.getElementById('cardQ4')
+    ];
+
+    const statusElements = [
+      document.getElementById('statusQ1'),
+      document.getElementById('statusQ2'),
+      document.getElementById('statusQ3'),
+      document.getElementById('statusQ4')
+    ];
+
+    // --- Web Audio API (Synthesizer Chimes) ---
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type = 'sine', gainVal = 0.2, delay = 0) {
+      if (!soundToggle.checked) return;
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        const startTime = ctx.currentTime + delay;
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(gainVal, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      } catch (e) {
+        console.warn('Audio not available', e);
+      }
+    }
+
+    function playQuadrantChime() {
+      // Pleasant double bell chime
+      playTone(587.33, 0.4, 'sine', 0.25, 0);     // D5
+      playTone(880.00, 0.6, 'sine', 0.28, 0.12);  // A5
+    }
+
+    function playFinishFanfare() {
+      // Triumphant harmonic sequence
+      playTone(523.25, 0.35, 'triangle', 0.25, 0);    // C5
+      playTone(659.25, 0.35, 'triangle', 0.25, 0.15); // E5
+      playTone(783.99, 0.35, 'triangle', 0.25, 0.30); // G5
+      playTone(1046.50, 0.8, 'sine', 0.35, 0.45);     // C6
+    }
+
+    // --- Format Helpers ---
+    function formatTime(seconds) {
+      const clamped = Math.max(0, Math.ceil(seconds));
+      const mins = Math.floor(clamped / 60);
+      const secs = clamped % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function getActiveQuadrant(elapsed) {
+      if (elapsed >= 120) return 4;
+      return Math.min(4, Math.floor(elapsed / QUADRANT_SECONDS) + 1);
+    }
+
+    // --- Update UI ---
+    function updateDisplay() {
+      const elapsed = TOTAL_SECONDS - remainingTime;
+      const currentQuadrant = getActiveQuadrant(elapsed);
+
+      // Digits
+      timerDisplay.textContent = formatTime(remainingTime);
+
+      // Active Quadrant info
+      const quadRemainingSecs = (elapsed >= TOTAL_SECONDS) ? 0 : (QUADRANT_SECONDS - (elapsed % QUADRANT_SECONDS));
+
+      quadrantTitle.textContent = `Ćwiartka ${currentQuadrant} / 4`;
+      quadrantRemaining.textContent = remainingTime <= 0
+        ? 'Ukończono!'
+        : `Pozostało w ćwiartce: ${quadRemainingSecs.toFixed(1)}s`;
+
+      // Percentage
+      const progressRatio = Math.min(1, Math.max(0, elapsed / TOTAL_SECONDS));
+      completionRate.textContent = `${Math.round(progressRatio * 100)}% ukończono`;
+
+      // Circular Ring Dashoffset
+      const offset = CIRCUMFERENCE * (1 - progressRatio);
+      progressRing.style.strokeDashoffset = offset;
+
+      // Update Quadrant Cards & Segment highlights
+      cardElements.forEach((card, index) => {
+        const qIndex = index + 1;
+        const seg = segElements[index];
+
+        card.classList.remove('active', 'completed');
+        seg.classList.remove('active', 'completed');
+
+        if (qIndex < currentQuadrant) {
+          card.classList.add('completed');
+          seg.classList.add('completed');
+          statusElements[index].textContent = '✓ Ukończona';
+        } else if (qIndex === currentQuadrant && remainingTime > 0) {
+          card.classList.add('active');
+          seg.classList.add('active');
+          statusElements[index].textContent = 'Aktywna';
+        } else if (remainingTime <= 0) {
+          card.classList.add('completed');
+          seg.classList.add('completed');
+          statusElements[index].textContent = '✓ Ukończona';
+        } else {
+          statusElements[index].textContent = 'Oczekuje';
+        }
+      });
+
+      // Quadrant transition chime detection
+      if (currentQuadrant !== previousQuadrant && isRunning) {
+        playQuadrantChime();
+        dialWrapper.classList.add('pulse');
+        setTimeout(() => dialWrapper.classList.remove('pulse'), 500);
+        previousQuadrant = currentQuadrant;
+      }
+    }
+
+    // --- Timer Engine ---
+    function startTimer() {
+      getAudioContext();
+      isRunning = true;
+      lastTimestamp = performance.now();
+
+      startBtn.classList.add('paused');
+      startBtnText.textContent = 'Wstrzymaj';
+      playIcon.innerHTML = `
+        <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+        <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+      `;
+
+      timerInterval = requestAnimationFrame(tick);
+    }
+
+    function pauseTimer() {
+      isRunning = false;
+      if (timerInterval) cancelAnimationFrame(timerInterval);
+
+      startBtn.classList.remove('paused');
+      startBtnText.textContent = remainingTime < TOTAL_SECONDS ? 'Wznów' : 'Rozpocznij';
+      playIcon.innerHTML = `<polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>`;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      remainingTime = TOTAL_SECONDS;
+      previousQuadrant = 1;
+      finishBanner.classList.remove('visible');
+      updateDisplay();
+    }
+
+    function tick(now) {
+      if (!isRunning) return;
+
+      const deltaSeconds = (now - lastTimestamp) / 1000;
+      lastTimestamp = now;
+
+      remainingTime -= deltaSeconds;
+
+      if (remainingTime <= 0) {
+        remainingTime = 0;
+        updateDisplay();
+        pauseTimer();
+        playFinishFanfare();
+        finishBanner.classList.add('visible');
+        return;
+      }
+
+      updateDisplay();
+      timerInterval = requestAnimationFrame(tick);
+    }
+
+    function skipToNextQuadrant() {
+      const elapsed = TOTAL_SECONDS - remainingTime;
+      const currentQuadrant = getActiveQuadrant(elapsed);
+      const targetElapsed = currentQuadrant * QUADRANT_SECONDS;
+
+      if (targetElapsed >= TOTAL_SECONDS) {
+        remainingTime = 0;
+        updateDisplay();
+        pauseTimer();
+        playFinishFanfare();
+        finishBanner.classList.add('visible');
+      } else {
+        remainingTime = TOTAL_SECONDS - targetElapsed;
+        previousQuadrant = currentQuadrant + 1;
+        playQuadrantChime();
+        updateDisplay();
+      }
+    }
+
+    // --- Event Listeners ---
+    startBtn.addEventListener('click', () => {
+      if (isRunning) {
+        pauseTimer();
+      } else {
+        if (remainingTime <= 0) {
+          resetTimer();
+        }
+        startTimer();
+      }
+    });
+
+    resetBtn.addEventListener('click', resetTimer);
+    skipBtn.addEventListener('click', skipToNextQuadrant);
+
+    finishRestartBtn.addEventListener('click', () => {
+      resetTimer();
+      startTimer();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault();
+        startBtn.click();
+      } else if (e.code === 'KeyR' && !e.ctrlKey && !e.metaKey) {
+        resetTimer();
+      }
+    });
+
+    // Initial setup
+    updateDisplay();
+  </script>
+</body>
+</html>
